@@ -3,11 +3,21 @@
     ViewBag.Title = "Faculty | IIT";
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
-@model IEnumerable<IIT_Faculties.Models.Faculty>
+@model IIT_Faculties.Models.Faculty
 
-<div class="container">
+<div class="container search-container">
+    <h2 class="text-center">Search</h2>
+
+    <div class="form">
+        <div class="form-group">
+            <input type="search" class="form-control" data-bind="textInput: query" autocomplete="off" placeholder="Search by name" />
+        </div>
+    </div>
+</div>
+
+<div class="container home-container">
     <h2>All Faculties</h2>
-    <p>@Html.ActionLink("Create New", "Create")</p>
+    <button class="btn btn-primary" id="create">Create</button>
     <table class="table">
         <tr>
             <th>
@@ -15,36 +25,59 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.JoiningDate)
+                @Html.DisplayNameFor(model => model.Designation)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Age)
+                @Html.DisplayNameFor(model => model.Qualtification)
             </th>
 
             <th></th>
         </tr>
         
-        <tbody data-bind="foreach: facultyCollection">
+        <tbody data-bind="foreach: filteredFaculties, visible: faculties().length > 0">
             <tr>
                 <td data-bind="text: Name"></td>
-
-                <td data-bind="text: JoiningDate"></td>
-
-                <td data-bind="text: Age"></td>
-
+                <td data-bind="text: Designation"></td>
+                <td data-bind="text: Qualtification"></td>
                 <td>
-                  @*  
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                  *@
+                    <button data-bind="click: addFaculty" class="btn btn-success">Edit</button>
+                    <button data-bind="click: save" class="btn btn-info">Details</button>
+                    <button data-bind="click: removeFaculty" class="btn btn-danger">Delete</button>
                 </td>
-
             </tr>
         </tbody>
+        <tr class="no-entry" data-bind="visible: faculties().length == 0">
+            <td>No entry found!</td>
+        </tr>
 
     </table>
 </div> 
+
+<div class="container create-container">
+    <h2>Create</h2>
+
+    <div>
+        <button data-bind="click: save" class="btn btn-primary">Create</button>
+        <button class="btn btn-default">Back</button>
+    </div>
+</div>
+
+<div class="container details-container">
+    <h2>Details</h2>
+
+    <div>
+        <button data-bind="click: addFaculty" class="btn btn-success">Edit</button>
+        <button class="btn btn-default">Back</button>
+    </div>
+</div>
+
+<div class="container edit-container">
+    <h2>Edit</h2>
+    <div>
+        <button data-bind="click: save" class="btn btn-success">Save</button>
+        <button class="btn btn-default">Back</button>
+    </div>
+</div>
 
 

@@ -1,6 +1,7 @@
 ﻿using IIT_Faculties.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,15 +10,12 @@ namespace IIT_Faculties.Controllers
 {
     public class FacultyController : Controller
     {
-        private FacultyDBContext db = new FacultyDBContext();
+        private IITFacultyDBContext db = new IITFacultyDBContext();
 
         // GET: Faculty
         public ActionResult Index()
         {
-            var faculties = from faculty in db.Faculties
-                            orderby faculty.ID
-                            select faculty;
-            return View(faculties);
+            return View();
         }
 
         // GET: Faculty/Details/5
@@ -46,7 +44,7 @@ namespace IIT_Faculties.Controllers
             {
                 db.Faculties.Add(faculty);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(faculty.ID);
             }
             catch
             {
@@ -72,10 +70,11 @@ namespace IIT_Faculties.Controllers
             try
             {
                 var faculty = db.Faculties.Single(m => m.ID == id);
-                if (TryUpdateModel(faculty))
+                if (ModelState.IsValid)
                 {
+                    db.Entry(faculty).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return Json(faculty.ID);
                 }
                 return View(faculty);
             }

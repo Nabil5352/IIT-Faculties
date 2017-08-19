@@ -13,18 +13,30 @@ namespace IIT_Faculties.Models
         [StringLength(60, MinimumLength = 3)]
         public string Name { get; set; }
 
-        [Display(Name = "Joining Date")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime JoiningDate { get; set; }
+        [StringLength(60)]
+        public string Designation { get; set; }
 
-        [Range(24, 60)]
-        public int Age { get; set; }
+        [StringLength(100)]
+        public string Qualtification { get; set; }
+
+        [StringLength(60)]
+        public string DBLP { get; set; }
+
+        [StringLength(60)]
+        public string GoogleScholar { get; set; }
+
+        [StringLength(60)]
+        public string Academia { get; set; }
+
+        [StringLength(60)]
+        public string ResearchGate { get; set; }
+
+        public int Status { get; set; }
     }
 
-    public class FacultyDBContext : DbContext
+    public class IITFacultyDBContext : DbContext
     {
-        public FacultyDBContext()
+        public IITFacultyDBContext()
         { }
         public DbSet<Faculty> Faculties { get; set; }
     }

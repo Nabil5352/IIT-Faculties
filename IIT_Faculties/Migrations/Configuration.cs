@@ -5,7 +5,7 @@ namespace IIT_Faculties.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<IIT_Faculties.Models.FacultyDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<IIT_Faculties.Models.IITFacultyDBContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace IIT_Faculties.Migrations
             ContextKey = "IIT_Faculties.Models.FacultyDBContext";
         }
 
-        protected override void Seed(IIT_Faculties.Models.FacultyDBContext context)
+        protected override void Seed(IIT_Faculties.Models.IITFacultyDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 
