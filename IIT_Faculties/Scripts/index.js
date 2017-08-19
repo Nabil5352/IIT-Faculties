@@ -13,6 +13,10 @@ function facultyModel() {
     var self = this;
     self.faculties = ko.observableArray("");
     self.query = ko.observable("");
+    self.selectedLayer = ko.observable();
+    self.selectedLayerType = ko.observable();
+    self.Template = ko.observable("default-template");
+
     self.filteredFaculties = ko.computed(function () {
         var filter = self.query().toLowerCase();
         if (!filter) {
@@ -30,12 +34,7 @@ function facultyModel() {
     });
 
     //operations
-    self.addFaculty = function () {
-        self.tasks.push(new faculty({
-            title: this.newTaskText()
-        }));
-        self.newTaskText("");
-    };
+    self.showDetails = function (faculty) { };
     self.removeFaculty = function (faculty) { self.faculties.destroy(faculty) };
     self.save = function () {
         $.ajax("/tasks", {
@@ -54,3 +53,17 @@ var GetFacultyModel = new facultyModel();
 $(document).ready(function () {
     ko.applyBindings(GetFacultyModel);
 });
+
+//template operation
+$(document).on("click", ".change-default", null, function (ev) {
+    GetFacultyModel.Template("default-template");
+})
+$(document).on("click", ".change-create", null, function (ev) {
+    GetFacultyModel.Template("create-template");
+})
+$(document).on("click", ".change-edit", null, function (ev) {
+    GetFacultyModel.Template("edit-template");
+})
+$(document).on("click", ".change-detail", null, function (ev) {
+    GetFacultyModel.Template("details-template");
+})

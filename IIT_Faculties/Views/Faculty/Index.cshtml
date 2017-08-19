@@ -5,79 +5,91 @@
 }
 @model IIT_Faculties.Models.Faculty
 
-<div class="container search-container">
-    <h2 class="text-center">Search</h2>
+<div id="home" data-bind="template: { name: $root.Template, data: $data }"></div>
 
-    <div class="form">
-        <div class="form-group">
-            <input type="search" class="form-control" data-bind="textInput: query" autocomplete="off" placeholder="Search by name" />
+
+<script type="text/html" id="default-template">
+    <div class="container search-container">
+        <h2 class="text-center">Search</h2>
+
+        <div class="form">
+            <div class="form-group">
+                <input type="search" class="form-control" data-bind="textInput: $root.query" autocomplete="off" placeholder="Search by name" />
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container home-container">
-    <h2>All Faculties</h2>
-    <button class="btn btn-primary" id="create">Create</button>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Designation)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Qualtification)
-            </th>
-
-            <th></th>
-        </tr>
-        
-        <tbody data-bind="foreach: filteredFaculties, visible: faculties().length > 0">
+    <div class="container home-container">
+        <h2>All Faculties</h2>
+        <button class="btn btn-primary change-create" id="create">Create</button>
+        <table class="table">
             <tr>
-                <td data-bind="text: Name"></td>
-                <td data-bind="text: Designation"></td>
-                <td data-bind="text: Qualtification"></td>
-                <td>
-                    <button data-bind="click: addFaculty" class="btn btn-success">Edit</button>
-                    <button data-bind="click: save" class="btn btn-info">Details</button>
-                    <button data-bind="click: removeFaculty" class="btn btn-danger">Delete</button>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Designation)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Qualtification)
+                </th>
+
+                <th></th>
             </tr>
-        </tbody>
-        <tr class="no-entry" data-bind="visible: faculties().length == 0">
-            <td>No entry found!</td>
-        </tr>
 
-    </table>
-</div> 
+            <tbody data-bind="foreach: $root.filteredFaculties, visible: $root.faculties().length > 0">
+                <tr>
+                    <td data-bind="text: Name"></td>
+                    <td data-bind="text: Designation"></td>
+                    <td data-bind="text: Qualtification"></td>
+                    <td>
+                        <button class="btn btn-success change-edit">Edit</button>
+                        <button class="btn btn-info change-detail">Details</button>
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tr class="no-entry" data-bind="visible: $root.faculties().length == 0">
+                <td>No entry found!</td>
+            </tr>
 
-<div class="container create-container">
-    <h2>Create</h2>
-
-    <div>
-        <button data-bind="click: save" class="btn btn-primary">Create</button>
-        <button class="btn btn-default">Back</button>
+        </table>
     </div>
-</div>
+</script>
 
-<div class="container details-container">
-    <h2>Details</h2>
+<script type="text/html" id="create-template">
+    <div class="container create-container">
+        <h2>Create</h2>
 
-    <div>
-        <button data-bind="click: addFaculty" class="btn btn-success">Edit</button>
-        <button class="btn btn-default">Back</button>
+        <div>
+            <button data-bind="click: save" class="btn btn-primary">Create</button>
+            <button class="btn btn-default change-default">Back</button>
+        </div>
     </div>
-</div>
+</script>
 
-<div class="container edit-container">
-    <h2>Edit</h2>
-    <div>
-        <button data-bind="click: save" class="btn btn-success">Save</button>
-        <button class="btn btn-default">Back</button>
+<script type="text/html" id="details-template">
+    <div class="container details-container">
+        <h2>Details</h2>
+
+        <div>
+            <button data-bind="click: showDetails" class="btn btn-success">Details</button>
+            <button class="btn btn-default change-default">Back</button>
+        </div>
     </div>
-</div>
+</script>
+
+<script type="text/html" id="edit-template">
+    <div class="container edit-container">
+        <h2>Edit</h2>
+
+        <div>
+            <button data-bind="click: save" class="btn btn-primary">Edit</button>
+            <button class="btn btn-default change-default">Back</button>
+        </div>
+    </div>
+</script>
 
 
