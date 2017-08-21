@@ -47,14 +47,13 @@
                     <td>
                         <button class="btn btn-success change-edit">Edit</button>
                         <button class="btn btn-info change-detail">Details</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-danger" data-bind="click: function() { $root.removeFaculty($data); }">Delete</button>
                     </td>
                 </tr>
             </tbody>
             <tr class="no-entry" data-bind="visible: $root.faculties().length == 0">
                 <td>No entry found!</td>
             </tr>
-
         </table>
     </div>
 </script>
@@ -62,9 +61,20 @@
 <script type="text/html" id="create-template">
     <div class="container create-container">
         <h2>Create</h2>
-
         <div>
-            <button data-bind="click: save" class="btn btn-primary">Create</button>
+            <form data-bind="submit: createNew">
+                <input data-bind="value: NewName" placeholder="Full Name" />
+                <input data-bind="value: NewDesignation" placeholder="Designation" />
+                <input data-bind="value: NewQualification" placeholder="Qualification" />
+                <input data-bind="value: NewDBLP" placeholder="DBLP Profile (optional)" />
+                <input data-bind="value: NewGoogleScholar" placeholder="Google Scholar Profile (optional)" />
+                <input data-bind="value: NewAcademia" placeholder="Academia Profile (optional)" />
+                <input data-bind="value: NewResearchGate" placeholder="ResearchGate Profile (optional)" />
+                <select data-bind="options: CurrentStatus, optionsText: 'key', value: selectedStatus, optionsCaption: 'Choose...'"></select>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+        <div>
             <button class="btn btn-default change-default">Back</button>
         </div>
     </div>

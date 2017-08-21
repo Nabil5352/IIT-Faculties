@@ -1,4 +1,5 @@
-function faculty(data){
+function faculty(data) {
+    this.ID = ko.observable(data.ID)
     this.Name = ko.observable(data.Name);
     this.Designation = ko.observable(data.Designation);
     this.Qualtification = ko.observable(data.Qualtification);
@@ -13,10 +14,26 @@ function facultyModel() {
     var self = this;
     self.faculties = ko.observableArray("");
     self.query = ko.observable("");
-    self.selectedLayer = ko.observable();
-    self.selectedLayerType = ko.observable();
     self.Template = ko.observable("default-template");
 
+    //new observables
+    self.NewName = ko.observable("");
+    self.NewDesignation = ko.observable("");
+    self.NewQualification = ko.observable("");
+    self.NewDBLP = ko.observable("");
+    self.NewGoogleScholar = ko.observable("");
+    self.NewAcademia = ko.observable("");
+    self.NewResearchGate = ko.observable("");
+    self.selectedStatus = ko.observable();
+    var Status = function (key, value) {
+        this.value = value;
+        this.key = key;
+    };
+    self.CurrentStatus = ko.observableArray([
+        new Status("On Leave", 0),
+        new Status("On Duty", 1),
+        new Status("Study Leave", 2)
+    ]);
     self.filteredFaculties = ko.computed(function () {
         var filter = self.query().toLowerCase();
         if (!filter) {
@@ -34,10 +51,51 @@ function facultyModel() {
     });
 
     //operations
+    self.createNew = function () {
+        var submitData ={
+            Name: this.NewName(),
+            Designation: this.NewDesignation(),
+            Qualtification: this.NewQualification(),
+            DBLP: this.NewDBLP(),
+            Academia: this.NewAcademia(),
+            GoogleScholar: this.NewGoogleScholar(),
+            ResearchGate: this.NewResearchGate(),
+            Status: this.selectedStatus()
+        };
+
+        $.ajax("/Faculty/Create", {
+            data: JSON.stringify(submitData),
+            type: "post",
+            contentType: "application/json",
+            success: function (result) {
+                alert(result)
+            },
+            error: function () {
+                alert("ERROR Saving");
+            },
+        });
+    };
+
     self.showDetails = function (faculty) { };
-    self.removeFaculty = function (faculty) { self.faculties.destroy(faculty) };
+    self.removeFaculty = function (item) {
+        if (confirm('Are you sure to Delete "' + item.Name() + '" ??')) {
+            var id = item.ID();
+            $.ajax({
+                url: 'Faculty/Delete/'+id,
+                type: 'POST',
+                contentType: 'application/json',
+                data: id,
+                success: function (data) {
+                    self.faculties.remove(item);
+                }
+                }).fail(
+                 function (xhr, textStatus, err) {
+                     console.log(err);
+                 });
+        }
+    };
     self.save = function () {
-        $.ajax("/tasks", {
+        $.ajax("Faculty/Create", {
             data: ko.toJSON({ faculties: self.faculties }),
             type: "post",
             contentType: "application/json",

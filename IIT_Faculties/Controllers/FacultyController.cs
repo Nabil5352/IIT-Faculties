@@ -37,7 +37,6 @@ namespace IIT_Faculties.Controllers
 
         // POST: Faculty/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Faculty faculty)
         {
             try
@@ -85,6 +84,7 @@ namespace IIT_Faculties.Controllers
         }
 
         // GET: Faculty/Delete/5
+        /*
         public ActionResult Delete(int id)
         {
             var faculty = db.Faculties.Single(m => m.ID == id);
@@ -94,19 +94,18 @@ namespace IIT_Faculties.Controllers
             }
             return View(faculty);
         }
+        */
 
         // POST: Faculty/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {  
             try
             {
                 var faculty = db.Faculties.Single(m => m.ID == id);
                 db.Faculties.Remove(faculty);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(faculty.ID);
             }
             catch
             {
