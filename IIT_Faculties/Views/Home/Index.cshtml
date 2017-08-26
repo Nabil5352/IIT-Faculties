@@ -4,5 +4,11 @@
     Layout = "~/Views/Shared/_LayoutDefault.cshtml";
 }
 
-<h2>Hello Index</h2>
+<div class="container">
+    <div class="jumbotron">
+        <h2>Welcome to IIT Facultypedia!</h2>
+        <p>Here you will get information about all faculty members.</p>
+        <p>@Html.ActionLink("View All", "Index", new { controller = "Faculty"}, new { @class = "btn btn-info" })</p>
+    </div>
+</div>
 

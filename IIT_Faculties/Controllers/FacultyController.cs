@@ -19,14 +19,10 @@ namespace IIT_Faculties.Controllers
         }
 
         // GET: Faculty/Details/5
-        public ActionResult Details(int id)
+        public JsonResult Details(int id)
         {
             Faculty faculty = db.Faculties.Find(id);
-            if(faculty == null)
-            {
-                return HttpNotFound();
-            }
-            return View(faculty);
+            return Json(faculty, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Faculty/Create
@@ -47,40 +43,29 @@ namespace IIT_Faculties.Controllers
             }
             catch
             {
-                return View(faculty);
+                return Json(faculty);
             }
         }
 
         // GET: Faculty/Edit/5
-        public ActionResult Edit(int id)
+        public JsonResult Edit(int id)
         {
-            var faculty = db.Faculties.Single(m => m.ID == id);
-            if (faculty == null)
-            {
-                return HttpNotFound();
-            }
-            return View(faculty);
+            Faculty faculty = db.Faculties.Single(m => m.ID == id);
+            return Json(faculty, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Faculty/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditFaculty(Faculty faculty)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var faculty = db.Faculties.Single(m => m.ID == id);
-                if (ModelState.IsValid)
-                {
-                    db.Entry(faculty).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return Json(faculty.ID);
-                }
-                return View(faculty);
+                db.Entry(faculty).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(faculty.ID);
             }
-            catch
-            {
-                return View();
-            }
+
+            return Json(faculty);
         }
 
         // GET: Faculty/Delete/5

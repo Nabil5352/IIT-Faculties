@@ -65,44 +65,114 @@ function facultyModel() {
 
         $.ajax("/Faculty/Create", {
             data: JSON.stringify(submitData),
-            type: "post",
+            type: "POST",
             contentType: "application/json",
             success: function (result) {
-                alert(result)
+                location.reload();
             },
             error: function () {
-                alert("ERROR Saving");
+                console.log("ERROR Saving");
             },
         });
     };
 
-    self.showDetails = function (faculty) { };
+    self.facultyName = ko.observable("");
+    self.facultyDesignation = ko.observable("");
+    self.facultyQualification = ko.observable("");
+    self.facultyDBLP = ko.observable("");
+    self.facultyGoogleScholar = ko.observable("");
+    self.facultyAcademia = ko.observable("");
+    self.facultyResearchGate = ko.observable("");
+    self.facultyStatus = ko.observable("");
+    self.showDetails = function (item) {
+        var id = item.ID();
+        $.ajax({
+            url: '/Faculty/Details/' + id,
+            type: 'GET',
+            contentType: 'application/json',
+            data: id,
+            success: function (data) {
+                self.facultyName(data.Name);
+                self.facultyDesignation(data.Designation);
+                self.facultyQualification(data.Qualtification);
+                self.facultyDBLP(data.DBLP);
+                self.facultyGoogleScholar(data.GoogleScholar);
+                self.facultyAcademia(data.Academia);
+                self.facultyResearchGate(data.ResearchGate);
+                self.facultyStatus(data.Status);
+            }
+        }).fail(function (xhr, textStatus, err) { console.log(err); });
+    };
+
+    self.editID = ko.observable("");
+    self.editName = ko.observable("");
+    self.editDesignation = ko.observable("");
+    self.editQualification = ko.observable("");
+    self.editDBLP = ko.observable("");
+    self.editGoogleScholar = ko.observable("");
+    self.editAcademia = ko.observable("");
+    self.editResearchGate = ko.observable("");
+    self.editStatus = ko.observable();
+    self.editFaculty = function (item) {
+        var id = item.ID();
+        $.ajax({
+            url: '/Faculty/Edit/' + id,
+            type: 'GET',
+            contentType: 'application/json',
+            data: id,
+            success: function (data) {
+                self.editID(data.ID);
+                self.editName(data.Name);
+                self.editDesignation(data.Designation);
+                self.editQualification(data.Qualtification);
+                self.editDBLP(data.DBLP);
+                self.editGoogleScholar(data.GoogleScholar);
+                self.editAcademia(data.Academia);
+                self.editResearchGate(data.ResearchGate);
+            }
+        }).fail(function (xhr, textStatus, err) { console.log(err); });
+    };
+
+    self.updateFaculty = function () {
+        var id = self.editID();
+        var updateData = {
+            ID: this.editID(),
+            Name: this.editName(),
+            Designation: this.editDesignation(),
+            Qualtification: this.editQualification(),
+            DBLP: this.editDBLP(),
+            Academia: this.editAcademia(),
+            GoogleScholar: this.editGoogleScholar(),
+            ResearchGate: this.editResearchGate(),
+            Status: this.editStatus()
+        };
+
+        $.ajax("/Faculty/EditFaculty", {
+            data: JSON.stringify(updateData),
+            type: "POST",
+            contentType: "application/json",
+            success: function (result) {
+                self.Template("default-template");
+            },
+            error: function () {
+                console.log("ERROR Saving");
+            },
+        });
+    };
+
     self.removeFaculty = function (item) {
-        if (confirm('Are you sure to Delete "' + item.Name() + '" ??')) {
+        if (confirm('Are you sure to Delete "' + item.Name() + '" ?')) {
             var id = item.ID();
             $.ajax({
-                url: 'Faculty/Delete/'+id,
+                url: '/Faculty/Delete/'+id,
                 type: 'POST',
                 contentType: 'application/json',
                 data: id,
                 success: function (data) {
                     self.faculties.remove(item);
                 }
-                }).fail(
-                 function (xhr, textStatus, err) {
-                     console.log(err);
-                 });
+                }).fail(function (xhr, textStatus, err) {console.log(err);});
         }
-    };
-    self.save = function () {
-        $.ajax("Faculty/Create", {
-            data: ko.toJSON({ faculties: self.faculties }),
-            type: "post",
-            contentType: "application/json",
-            success: function (result) {
-                alert(result)
-            }
-        });
     };
 }
 

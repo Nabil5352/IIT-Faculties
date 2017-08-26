@@ -1,2 +1,29 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+body {
+    font-family: 'Lato', sans-serif;
 }
+a, a:hover{
+    text-decoration: none;
+}
+h1,h2,h3,h4,h5,h6{margin: 0px;}
+input,
+.btn{border-radius: 0px !important;}
+select{padding: 0.5em;}
+.logo {
+   height: 20px;
+}
+.footer-copyright {
+    text-align: center;
+}
+.home-container .all-title{margin-bottom: 2em;}
+.home-container .table>tbody>tr>th{text-transform: uppercase;}
+.search-container{padding-bottom: 1em;}
+.search-container .form{margin-top: 1em;}
+
+.form-view {
+    margin: 2em 0em;
+}
+.create-title,
+.edit-title,
+.details-title{text-align: center;}
+.no-entry {color: #a90909;}

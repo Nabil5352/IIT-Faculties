@@ -10,7 +10,7 @@
 
 <script type="text/html" id="default-template">
     <div class="container search-container">
-        <h2 class="text-center">Search</h2>
+        <h3 class="text-center">SEARCH</h3>
 
         <div class="form">
             <div class="form-group">
@@ -20,84 +20,212 @@
     </div>
 
     <div class="container home-container">
-        <h2>All Faculties</h2>
-        <button class="btn btn-primary change-create" id="create">Create</button>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
+        <div class="pull-left all-title">
+            <h2>All Faculties</h2>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-primary change-create" id="create">Add New</button>
+        </div>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Designation)
-                </th>
-
-                <th>
-                    @Html.DisplayNameFor(model => model.Qualtification)
-                </th>
-
-                <th></th>
-            </tr>
-
-            <tbody data-bind="foreach: $root.filteredFaculties, visible: $root.faculties().length > 0">
+            <table class="table">
                 <tr>
-                    <td data-bind="text: Name"></td>
-                    <td data-bind="text: Designation"></td>
-                    <td data-bind="text: Qualtification"></td>
-                    <td>
-                        <button class="btn btn-success change-edit">Edit</button>
-                        <button class="btn btn-info change-detail">Details</button>
-                        <button class="btn btn-danger" data-bind="click: function() { $root.removeFaculty($data); }">Delete</button>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Designation)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Qualtification)
+                    </th>
+
+                    <th></th>
                 </tr>
-            </tbody>
-            <tr class="no-entry" data-bind="visible: $root.faculties().length == 0">
-                <td>No entry found!</td>
-            </tr>
-        </table>
-    </div>
+
+                <tbody data-bind="foreach: $root.filteredFaculties, visible: $root.faculties().length > 0">
+                    <tr>
+                        <td data-bind="text: Name"></td>
+                        <td data-bind="text: Designation"></td>
+                        <td data-bind="text: Qualtification"></td>
+                        <td>
+                            <button class="btn btn-success change-edit" data-bind="click: function() { $root.editFaculty($data); }">Edit</button>
+                            <button class="btn btn-info change-detail" data-bind="click: function() { $root.showDetails($data); }">Details</button>
+                            <button class="btn btn-danger" data-bind="click: function() { $root.removeFaculty($data); }">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tr class="no-entry" data-bind="visible: $root.faculties().length == 0">
+                    <td>No entry found!</td>
+                </tr>
+            </table>
+        </div>
 </script>
 
 <script type="text/html" id="create-template">
     <div class="container create-container">
-        <h2>Create</h2>
-        <div>
+        <h2 class="create-title">Add New Faculty</h2>
+        <div class="form-view">
             <form data-bind="submit: createNew">
-                <input data-bind="value: NewName" placeholder="Full Name" />
-                <input data-bind="value: NewDesignation" placeholder="Designation" />
-                <input data-bind="value: NewQualification" placeholder="Qualification" />
-                <input data-bind="value: NewDBLP" placeholder="DBLP Profile (optional)" />
-                <input data-bind="value: NewGoogleScholar" placeholder="Google Scholar Profile (optional)" />
-                <input data-bind="value: NewAcademia" placeholder="Academia Profile (optional)" />
-                <input data-bind="value: NewResearchGate" placeholder="ResearchGate Profile (optional)" />
-                <select data-bind="options: CurrentStatus, optionsText: 'key', value: selectedStatus, optionsCaption: 'Choose...'"></select>
-                <button type="submit">Create</button>
+                <div class="form-group">
+                    <label for="fullname">Full Name:</label>
+                    <input class="form-control" id="fullname" data-bind="value: NewName" placeholder="Full Name" />
+                </div>
+                <div class="form-group">
+                    <label for="designation">Designation:</label>
+                    <input class="form-control" id="designation" data-bind="value: NewDesignation" placeholder="Designation" />
+                </div>
+                <div class="form-group">
+                    <label for="qualification">Qualification:</label>
+                    <input class="form-control" id="qualification" data-bind="value: NewQualification" placeholder="Qualification" />
+                </div>
+                <div class="form-group">
+                    <label for="dblp">DBLP Profile:</label>
+                    <input class="form-control" id="dblp" data-bind="value: NewDBLP" placeholder="DBLP Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="googlescholar">Google Scholar Profile:</label>
+                    <input class="form-control" id="googlescholar" data-bind="value: NewGoogleScholar" placeholder="Google Scholar Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="academia">Academia Profile:</label>
+                    <input class="form-control" id="academia" data-bind="value: NewAcademia" placeholder="Academia Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="researchgate">ResearchGate Profile:</label>
+                    <input class="form-control" id="researchgate" data-bind="value: NewResearchGate" placeholder="ResearchGate Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="status">Current Status:</label>&nbsp;&nbsp;
+                    <select id="status" data-bind="options: CurrentStatus, optionsText: 'key', optionsValue: 'value', value: selectedStatus, optionsCaption: 'Choose...'"></select>
+                </div>
+                
+                <button class="btn btn-primary" type="submit">Create Now!</button>
             </form>
         </div>
-        <div>
-            <button class="btn btn-default change-default">Back</button>
+        <div class="">
+            <br><button class="btn btn-default change-default">Back</button>
         </div>
     </div>
 </script>
 
 <script type="text/html" id="details-template">
     <div class="container details-container">
-        <h2>Details</h2>
+        <h2 class="details-title">Details of <span data-bind="text: facultyName"></span>   </h2>
+            <div class="form-view">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope=row>1</th>
+                            <td>@Html.DisplayNameFor(model => model.Name)</td>
+                            <td data-bind="text: facultyName"></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>2</th>
+                            <td>@Html.DisplayNameFor(model => model.Designation)</td>
+                            <td data-bind="text: facultyDesignation"></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>3</th>
+                            <td>@Html.DisplayNameFor(model => model.Qualtification)</td>
+                            <td data-bind="text: facultyQualification"></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>4</th>
+                            <td>@Html.DisplayNameFor(model => model.DBLP)</td>
+                            <td><a target="_blank" data-bind="attr: { href: facultyDBLP }">DBLP Profile</a></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>5</th>
+                            <td>@Html.DisplayNameFor(model => model.GoogleScholar)</td>
+                            <td><a target="_blank" data-bind="attr: { href: facultyGoogleScholar }">Google Scholar Profile</a></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>6</th>
+                            <td>@Html.DisplayNameFor(model => model.Academia)</td>
+                            <td><a target="_blank" data-bind="attr: { href: facultyAcademia }">Academia Profile</a></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>7</th>
+                            <td>@Html.DisplayNameFor(model => model.ResearchGate)</td>
+                            <td><a target="_blank" data-bind="attr: { href: facultyResearchGate }">ResearchGate Profile</a></td>
+                        </tr>
+                        <tr>
+                            <th scope=row>8</th>
+                            <td>@Html.DisplayNameFor(model => model.Status)</td>
+                            <td>
+                                <!-- ko if: facultyStatus() === 0 -->
+                                On Leave
+                                <!-- /ko -->
+                                <!-- ko if: facultyStatus() === 1 -->
+                                On Duty
+                                <!-- /ko -->
+                                <!-- ko if: facultyStatus() === 2 -->
+                                Study Leave
+                                <!-- /ko -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <div>
-            <button data-bind="click: showDetails" class="btn btn-success">Details</button>
-            <button class="btn btn-default change-default">Back</button>
+            <div>
+                <br><button class="btn btn-default change-default">Back</button>
+            </div>
         </div>
-    </div>
 </script>
 
 <script type="text/html" id="edit-template">
     <div class="container edit-container">
-        <h2>Edit</h2>
+        <h2 class="edit-title">Edit Faculty Information</h2>
+        <div class="form-view">
+            <form data-bind="submit: updateFaculty">
+                <div class="form-group">
+                    <label for="editname">Full Name:</label>
+                    <input class="form-control" id="editname" data-bind="value: editName" placeholder="Full Name" />
+                </div>
+                <div class="form-group">
+                    <label for="editdesignation">Designation:</label>
+                    <input class="form-control" id="editdesignation" data-bind="value: editDesignation" placeholder="Designation" />
+                </div>
+                <div class="form-group">
+                    <label for="editqualification">Qualification:</label>
+                    <input class="form-control" id="editqualification" data-bind="value: editQualification" placeholder="Qualification" />
+                </div>
+                <div class="form-group">
+                    <label for="editdblp">DBLP Profile:</label>
+                    <input class="form-control" id="editdblp" data-bind="value: editDBLP" placeholder="DBLP Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="editgooglescholar">Google Scholar Porfile:</label>
+                    <input class="form-control" id="editgooglescholar" data-bind="value: editGoogleScholar" placeholder="Google Scholar Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="editacademia">Academia Profile:</label>
+                    <input class="form-control" id="editacademia" data-bind="value: editAcademia" placeholder="Academia Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="editresearchgate">ResearchGate Profile:</label>
+                    <input class="form-control" id="editresearchgate" data-bind="value: editResearchGate" placeholder="ResearchGate Profile" />
+                </div>
+                <div class="form-group">
+                    <label for="editstatus">Current Status:</label>&nbsp;&nbsp;
+                    <select id="editstatus" data-bind="options: CurrentStatus, optionsText: 'key', optionsValue: 'value', value: editStatus, optionsCaption: 'Choose...'"></select>
+                </div>
 
+                <button class="btn btn-info" type="submit">Update information</button>
+            </form>
+        </div>
         <div>
-            <button data-bind="click: save" class="btn btn-primary">Edit</button>
-            <button class="btn btn-default change-default">Back</button>
+            <br><button class="btn btn-default change-default">Back</button>
         </div>
     </div>
 </script>
